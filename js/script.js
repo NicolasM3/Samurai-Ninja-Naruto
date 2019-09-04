@@ -2,6 +2,7 @@ var objCanvas=null;     // objeto que representa o canvas
 var objContexto=null;   // objeto que representa o contexto do canvas
 
 var pontos = 0;
+var primeiraVez1 = true;
 // Objetos Image para cada coisa que vai aparecer na tela
 var imgFundo = new Image();
 imgFundo.src = "Images/fundo.png";
@@ -27,6 +28,8 @@ var imgHeroi = new Image();
 imgHeroi.src = "Images/heroi.png";
 var imgMonstro1 = new Image();
 imgMonstro1.src = "Images/monstro.png";
+var imgMonstro2 = new Image();
+imgMonstro1.src = "Images/monstro.png";
 var imgBandeira = new Image();
 imgBandeira.src = "Images/bandeira.png";
 
@@ -48,14 +51,24 @@ function AtualizaTela()
 
 function SpawnarMonstro()
 {
-    if(pontos == 0)
+    if(pontos >= 0 && pontos < 4) 
     {
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
     }
-    else if(pontos > 0)
+    else if(pontos == 4)
+    {
+        if(primeiraVez1)
+        {
+            VetorMonstro.push(VetorMonstros[1]);
+            primeiraVez1 = false;
+        }
+        objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
+        objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]);
+    }
+    else if(pontos > 4)
     {
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
-        //objContexto.drawImage(imgMonstro1, VetorMonstro[1][0], VetorMonstro[0][1]);
+        objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]); 
     }
 }
 function MovimentoDoMonstroX()
@@ -161,7 +174,7 @@ function DefinirPosicaoBandeira()
     xBandeira = Math.floor(Math.random() * (932 - 55)) + 55;
     yBandeira = Math.floor(Math.random() * (860 - 50)) + 50;
 }
-$(document).ready(function(){
 
+$(document).ready(function(){
     Iniciar();
 })
