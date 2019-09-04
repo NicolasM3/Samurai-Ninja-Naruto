@@ -76,7 +76,7 @@ function SpawnarMonstro()
         if(primeiraVez2)
         {
             VetorMonstro.push(VetorMonstros[2]);
-            alert(VetorMonstro);
+            //alert(VetorMonstro);
             primeiraVez2 = false;
         }
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
@@ -156,19 +156,19 @@ function MovimentoDoMonstroX()
 
             if(aproximadoXHeroi > aproximadoXMonstro)
             {
-                VetorMonstro[i][0] += velocidadeMonstro;
+                VetorMonstro[i][0] += velocidadeMonstro / 2;
             }
             else if(aproximadoXHeroi < aproximadoXMonstro)
             {
-                VetorMonstro[i][0] -= velocidadeMonstro;
+                VetorMonstro[i][0] -= velocidadeMonstro / 2;
             }
             if(aproximadoYHeroi > aproximadoYMonstro)
             {
-                VetorMonstro[i][1] += velocidadeMonstro;
+                VetorMonstro[i][1] += velocidadeMonstro / 2;
             }
             else if(aproximadoYHeroi < aproximadoYMonstro)
             {
-                VetorMonstro[i][1] -= velocidadeMonstro;
+                VetorMonstro[i][1] -= velocidadeMonstro / 2;
             }
         }
     }
@@ -254,6 +254,23 @@ function ReceberPontos()
     //alert(pontos);
 }
 
+function verificarTiro()
+{
+    for(var i = 0; i < VetorMonstro; i++)
+    {
+        if(event.pageX == VetorMonstro[i][0] && event.pageY == VetorMonstro[i][1])
+        {
+            setTimeout(fu)
+        }
+    }
+}
+
 $(document).ready(function(){
     Iniciar();
+    $(document).on("mousemove",function(event) {
+        $(document).on("click",function(event)
+        {
+            verificarTiro();
+        });
+    });
 })
