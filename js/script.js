@@ -3,6 +3,7 @@ var objContexto=null;   // objeto que representa o contexto do canvas
 
 var pontos = 0;
 var primeiraVez1 = true;
+var primeiraVez2 = true;
 // Objetos Image para cada coisa que vai aparecer na tela
 var imgFundo = new Image();
 imgFundo.src = "Images/fundo.png";
@@ -16,12 +17,14 @@ var xMonstro1=55;
 var yMonstro1=50;
 var xMonstro2=55;
 var yMonstro2=50;
+var xMonstro3=55;
+var yMonstro3=50;
 var velocidadeMonstro = 10;
 // Contrloe do Posicionamento da Bandeira
 var xBandeira;
 var yBandeira;
 
-var VetorMonstros = new Array([xMonstro1, yMonstro1], [xMonstro2, yMonstro2]);
+var VetorMonstros = new Array([xMonstro1, yMonstro1], [xMonstro2, yMonstro2], [xMonstro3, yMonstro3]);
 var VetorMonstro = new Array([xMonstro1, yMonstro1]);
 
 var imgHeroi = new Image();
@@ -29,7 +32,9 @@ imgHeroi.src = "Images/heroi.png";
 var imgMonstro1 = new Image();
 imgMonstro1.src = "Images/monstro.png";
 var imgMonstro2 = new Image();
-imgMonstro1.src = "Images/monstro.png";
+imgMonstro2.src = "Images/monstro.png";
+var imgMonstro3 = new Image();
+imgMonstro3.src = "Images/monstro.png";
 var imgBandeira = new Image();
 imgBandeira.src = "Images/bandeira.png";
 
@@ -55,45 +60,113 @@ function SpawnarMonstro()
     {
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
     }
-    else if(pontos == 4)
+    else if(pontos >= 4 && pontos < 8)
     {
         if(primeiraVez1)
         {
             VetorMonstro.push(VetorMonstros[1]);
+            //alert(VetorMonstro);
             primeiraVez1 = false;
         }
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
         objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]);
     }
-    else if(pontos > 4)
+    else if(pontos == 8)
     {
+        if(primeiraVez2)
+        {
+            VetorMonstro.push(VetorMonstros[2]);
+            alert(VetorMonstro);
+            primeiraVez2 = false;
+        }
         objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
         objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]); 
+        objContexto.drawImage(imgMonstro2, VetorMonstro[2][0], VetorMonstro[2][1]); 
+    }
+    else if(pontos > 8)
+    {
+        objContexto.drawImage(imgMonstro1, VetorMonstro[0][0], VetorMonstro[0][1]);
+        objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]);
+        objContexto.drawImage(imgMonstro2, VetorMonstro[2][0], VetorMonstro[2][1]); 
     }
 }
+
 function MovimentoDoMonstroX()
 {
     for(var i = 0; i < VetorMonstro.length; i++)
     {
-        var aproximadoXHeroi = Math.floor(xHeroi / 20);
-        var aproximadoXMonstro = Math.floor(VetorMonstro[i][0] / 20);
+        if(i == 0)
+        {
+            var aproximadoXHeroi = Math.floor(xHeroi / 20);
+            var aproximadoXMonstro = Math.floor(VetorMonstro[i][0] / 20);
 
-        if(aproximadoXHeroi > aproximadoXMonstro)
-        {
-            VetorMonstro[i][0] += velocidadeMonstro;
+            if(aproximadoXHeroi > aproximadoXMonstro)
+            {
+                VetorMonstro[i][0] += velocidadeMonstro;
+            }
+            else if(aproximadoXHeroi < aproximadoXMonstro)
+            {
+                VetorMonstro[i][0] -= velocidadeMonstro;
+            }
+            
+            if(aproximadoXHeroi == aproximadoXMonstro)
+            {
+                if(yHeroi > VetorMonstro[i][1])
+                {
+                    VetorMonstro[i][1] += velocidadeMonstro;
+                }
+                else
+                {
+                    VetorMonstro[i][1] -= velocidadeMonstro;
+                }
+            }
         }
-        else if(aproximadoXHeroi < aproximadoXMonstro)
+        else if(i == 1)
         {
-            VetorMonstro[i][0] -= velocidadeMonstro;
-        }
-        
-        if(aproximadoXHeroi == aproximadoXMonstro)
-        {
-            if(yHeroi > VetorMonstro[i][1])
+            var aproximadoYHeroi = Math.floor(yHeroi / 20);
+            var aproximadoYMonstro = Math.floor(VetorMonstro[i][1] / 20);
+
+            if(aproximadoYHeroi > aproximadoYMonstro)
             {
                 VetorMonstro[i][1] += velocidadeMonstro;
             }
-            else
+            else if(aproximadoYHeroi < aproximadoYMonstro)
+            {
+                VetorMonstro[i][1] -= velocidadeMonstro;
+            }
+            
+            if(aproximadoYHeroi == aproximadoYMonstro)
+            {
+                if(xHeroi > VetorMonstro[i][0])
+                {
+                    VetorMonstro[i][0] += velocidadeMonstro;
+                }
+                else
+                {
+                    VetorMonstro[i][0] -= velocidadeMonstro;
+                }
+            }
+        }
+        else
+        {
+            var aproximadoYHeroi = Math.floor(yHeroi / 20);
+            var aproximadoYMonstro = Math.floor(VetorMonstro[i][1] / 20);
+            var aproximadoXHeroi = Math.floor(xHeroi / 20);
+            var aproximadoXMonstro = Math.floor(VetorMonstro[i][0] / 20);
+
+            if(aproximadoXHeroi > aproximadoXMonstro)
+            {
+                VetorMonstro[i][0] += velocidadeMonstro;
+            }
+            else if(aproximadoXHeroi < aproximadoXMonstro)
+            {
+                VetorMonstro[i][0] -= velocidadeMonstro;
+            }
+            if(aproximadoYHeroi > aproximadoYMonstro)
+            {
+                VetorMonstro[i][1] += velocidadeMonstro;
+            }
+            else if(aproximadoYHeroi < aproximadoYMonstro)
             {
                 VetorMonstro[i][1] -= velocidadeMonstro;
             }
@@ -173,6 +246,12 @@ function DefinirPosicaoBandeira()
 {
     xBandeira = Math.floor(Math.random() * (932 - 55)) + 55;
     yBandeira = Math.floor(Math.random() * (860 - 50)) + 50;
+}
+
+function ReceberPontos()
+{
+    pontos += 1;
+    //alert(pontos);
 }
 
 $(document).ready(function(){
