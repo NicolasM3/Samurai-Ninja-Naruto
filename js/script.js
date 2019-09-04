@@ -233,7 +233,7 @@ function VerificarContato()
             AtualizaTela();
         }
 
-        if(aproximadoXHeroi == aproximadoXBandeira && (aproximadoYHeroi == aproximadoYBandeira + 1 || aproximadoYHeroi == aproximadoYBandeira))
+        if((aproximadoXHeroi == aproximadoXBandeira || aproximadoXHeroi == aproximadoXBandeira + 1 || aproximadoXHeroi == aproximadoXBandeira - 1) && (aproximadoYHeroi == aproximadoYBandeira + 1 || aproximadoYHeroi == aproximadoYBandeira))
         {
             pontos += 1;
             DefinirPosicaoBandeira();
