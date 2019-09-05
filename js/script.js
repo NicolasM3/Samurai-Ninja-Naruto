@@ -4,6 +4,7 @@ var objContexto=null;   // objeto que representa o contexto do canvas
 var pontos = 0;
 var primeiraVez1 = true;
 var primeiraVez2 = true;
+var primeiraVezTiro = true;
 // Objetos Image para cada coisa que vai aparecer na tela
 var imgFundo = new Image();
 imgFundo.src = "Images/fundo.png";
@@ -20,9 +21,15 @@ var yMonstro2=50;
 var xMonstro3=55;
 var yMonstro3=50;
 var velocidadeMonstro = 10;
-// Contrloe do Posicionamento da Bandeira
+// Contrle do Posicionamento da Bandeira
 var xBandeira;
 var yBandeira;
+// Controle do tiro
+var xTiro = 200;
+var yTiro = 300;
+
+var xFocoTiro;
+var yFocoTiro;
 
 var VetorMonstros = new Array([xMonstro1, yMonstro1], [xMonstro2, yMonstro2], [xMonstro3, yMonstro3]);
 var VetorMonstro = new Array([xMonstro1, yMonstro1]);
@@ -37,6 +44,8 @@ var imgMonstro3 = new Image();
 imgMonstro3.src = "Images/monstro.png";
 var imgBandeira = new Image();
 imgBandeira.src = "Images/bandeira.png";
+var imgTiro = new Image();
+imgTiro.src = "Images/bandeira.png";
 
 function Iniciar(){
     objCanvas = document.getElementById("meuCanvas");
@@ -51,6 +60,8 @@ function AtualizaTela()
     objContexto.drawImage(imgFundo,0,0);
     objContexto.drawImage(imgHeroi, xHeroi, yHeroi);
     objContexto.drawImage(imgBandeira, xBandeira, yBandeira);
+    objContexto.drawImage(imgTiro, xTiro, yTiro);
+    MovimentoTiro();
     SpawnarMonstro();
 }
 
@@ -89,6 +100,18 @@ function SpawnarMonstro()
         objContexto.drawImage(imgMonstro2, VetorMonstro[1][0], VetorMonstro[1][1]);
         objContexto.drawImage(imgMonstro2, VetorMonstro[2][0], VetorMonstro[2][1]); 
     }
+}
+
+function SpawnarTiro()
+{
+    //alert("1");
+    if(primeiraVezTiro)
+    {
+        xTiro = xHeroi;
+        yTiro = yTiro;
+    }
+    objContexto.drawImage(imgTiro, xTiro, yTiro);
+    MovimentoTiro();
 }
 
 function MovimentoDoMonstroX()
@@ -251,26 +274,53 @@ function DefinirPosicaoBandeira()
 function ReceberPontos()
 {
     pontos += 1;
-    //alert(pontos);
+    AtualizaTela();
 }
 
-function verificarTiro()
+function MovimentoTiro()
 {
-    for(var i = 0; i < VetorMonstro; i++)
+    aproximadoXFoco = Math.floor(xFocoTiro / 40);
+    aproximadoYFoco = Math.floor(yFocoTiro / 40);
+
+    aproximadoXTiro = Math.floor(xTiro / 40);
+    aproximadoYTiro = Math.floor(yTiro / 40);
+    if(aproximadoXFoco > aproximadoXTiro)
     {
-        if(event.pageX == VetorMonstro[i][0] && event.pageY == VetorMonstro[i][1])
-        {
-            setTimeout(fu)
-        }
+        xTiro += 20;
+    }
+    else
+    {
+        xTiro -= 20;
+    }
+
+    if(aproximadoYFoco > aproximadoYTiro)
+    {
+        yTiro += 20;
+    }
+    else
+    {
+        yTiro -= 20;
+    }
+
+    if(aproximadoYFoco == aproximadoYTiro && aproximadoXFoco == aproximadoXTiro)
+    {
+        xFocoTiro = 100000;
+        yFocoTiro = 100000;
+
+        xTiro = xFocoTiro;
+        yTiro = yFocoTiro;
     }
 }
 
 $(document).ready(function(){
     Iniciar();
-    $(document).on("mousemove",function(event) {
-        $(document).on("click",function(event)
-        {
-            verificarTiro();
-        });
+    $(document).on("click",function(event)
+    {
+        xFocoTiro = event.pageX;
+        yFocoTiro = event.pageY;
+
+        xTiro = xHeroi;
+        yTiro = yHeroi;
+        SpawnarTiro();
     });
 })
