@@ -5,6 +5,7 @@ var pontos = 0;
 var primeiraVez1 = true;
 var primeiraVez2 = true;
 var primeiraVezTiro = true;
+var movimentos = 0;
 // Objetos Image para cada coisa que vai aparecer na tela
 var imgFundo = new Image();
 imgFundo.src = "Images/fundo.png";
@@ -16,22 +17,26 @@ var velocidadeHeroi = 20;
 // Controle de Posicionamento do Monstro
 var xMonstro1=55;
 var yMonstro1=50;
+velocidadeMonstro1 = 10;
 var xMonstro2=55;
 var yMonstro2=50;
+velocidadeMonstro2 = 10;
 var xMonstro3=55;
 var yMonstro3=50;
-var velocidadeMonstro = 10;
+velocidadeMonstro3 = 5;
 // Contrle do Posicionamento da Bandeira
 var xBandeira;
 var yBandeira;
 // Controle do tiro
-var xTiro = 200;
-var yTiro = 300;
+var xTiro = 1000;
+var yTiro = 1000;
 
 var xFocoTiro;
 var yFocoTiro;
 
-var VetorMonstros = new Array([xMonstro1, yMonstro1], [xMonstro2, yMonstro2], [xMonstro3, yMonstro3]);
+var comXuriquem = true;
+
+var VetorMonstros = new Array([xMonstro1, yMonstro1, velocidadeMonstro1], [xMonstro2, yMonstro2, velocidadeMonstro2], [xMonstro3, yMonstro3, velocidadeMonstro3]);
 var VetorMonstro = new Array([xMonstro1, yMonstro1]);
 
 var imgHeroi = new Image();
@@ -45,7 +50,7 @@ imgMonstro3.src = "Images/monstro.png";
 var imgBandeira = new Image();
 imgBandeira.src = "Images/bandeira.png";
 var imgTiro = new Image();
-imgTiro.src = "Images/bandeira.png";
+imgTiro.src = "Images/nice.png";
 
 function Iniciar(){
     objCanvas = document.getElementById("meuCanvas");
@@ -57,6 +62,7 @@ function Iniciar(){
 
 function AtualizaTela()
 {
+    //alert(VetorMonstro[0] + " | " + velocidadeMonstro1);
     objContexto.drawImage(imgFundo,0,0);
     objContexto.drawImage(imgHeroi, xHeroi, yHeroi);
     objContexto.drawImage(imgBandeira, xBandeira, yBandeira);
@@ -104,13 +110,13 @@ function SpawnarMonstro()
 
 function SpawnarTiro()
 {
-    //alert("1");
     if(primeiraVezTiro)
     {
+        //alert("1");
         xTiro = xHeroi;
         yTiro = yTiro;
+        primeiraVezTiro = false;
     }
-    objContexto.drawImage(imgTiro, xTiro, yTiro);
     MovimentoTiro();
 }
 
@@ -125,22 +131,22 @@ function MovimentoDoMonstroX()
 
             if(aproximadoXHeroi > aproximadoXMonstro)
             {
-                VetorMonstro[i][0] += velocidadeMonstro;
+                VetorMonstro[i][0] += velocidadeMonstro1;
             }
             else if(aproximadoXHeroi < aproximadoXMonstro)
             {
-                VetorMonstro[i][0] -= velocidadeMonstro;
+                VetorMonstro[i][0] -= velocidadeMonstro1;
             }
             
             if(aproximadoXHeroi == aproximadoXMonstro)
             {
                 if(yHeroi > VetorMonstro[i][1])
                 {
-                    VetorMonstro[i][1] += velocidadeMonstro;
+                    VetorMonstro[i][1] += velocidadeMonstro1;
                 }
                 else
                 {
-                    VetorMonstro[i][1] -= velocidadeMonstro;
+                    VetorMonstro[i][1] -= velocidadeMonstro1;
                 }
             }
         }
@@ -151,22 +157,22 @@ function MovimentoDoMonstroX()
 
             if(aproximadoYHeroi > aproximadoYMonstro)
             {
-                VetorMonstro[i][1] += velocidadeMonstro;
+                VetorMonstro[i][1] += velocidadeMonstro2;
             }
             else if(aproximadoYHeroi < aproximadoYMonstro)
             {
-                VetorMonstro[i][1] -= velocidadeMonstro;
+                VetorMonstro[i][1] -= velocidadeMonstro2;
             }
             
             if(aproximadoYHeroi == aproximadoYMonstro)
             {
                 if(xHeroi > VetorMonstro[i][0])
                 {
-                    VetorMonstro[i][0] += velocidadeMonstro;
+                    VetorMonstro[i][0] += velocidadeMonstro2;
                 }
                 else
                 {
-                    VetorMonstro[i][0] -= velocidadeMonstro;
+                    VetorMonstro[i][0] -= velocidadeMonstro2;
                 }
             }
         }
@@ -179,19 +185,19 @@ function MovimentoDoMonstroX()
 
             if(aproximadoXHeroi > aproximadoXMonstro)
             {
-                VetorMonstro[i][0] += velocidadeMonstro / 2;
+                VetorMonstro[i][0] += velocidadeMonstro3;
             }
             else if(aproximadoXHeroi < aproximadoXMonstro)
             {
-                VetorMonstro[i][0] -= velocidadeMonstro / 2;
+                VetorMonstro[i][0] -= velocidadeMonstro3;
             }
             if(aproximadoYHeroi > aproximadoYMonstro)
             {
-                VetorMonstro[i][1] += velocidadeMonstro / 2;
+                VetorMonstro[i][1] += velocidadeMonstro3;
             }
             else if(aproximadoYHeroi < aproximadoYMonstro)
             {
-                VetorMonstro[i][1] -= velocidadeMonstro / 2;
+                VetorMonstro[i][1] -= velocidadeMonstro3;
             }
         }
     }
@@ -243,10 +249,12 @@ function VerificarContato()
         var aproximadoXHeroi = Math.floor(xHeroi / 20);
         var aproximadoXMonstro = Math.floor(VetorMonstro[i][0] / 20);
         var aproximadoXBandeira = Math.floor(xBandeira / 20);
+        var aproximadoXXuriquem = Math.floor(xTiro / 20);
 
         var aproximadoYHeroi = Math.floor(yHeroi / 20);
         var aproximadoYMonstro = Math.floor(VetorMonstro[i][1] / 20);
         var aproximadoYBandeira = Math.floor(yBandeira / 20);
+        var aproximadoYXuriquem = Math.floor(yTiro / 20);
 
 
         if(aproximadoXHeroi == aproximadoXMonstro && aproximadoYHeroi == aproximadoYMonstro)
@@ -261,6 +269,39 @@ function VerificarContato()
             pontos += 1;
             DefinirPosicaoBandeira();
             AtualizaTela();
+        }
+
+        if(aproximadoXXuriquem == aproximadoXMonstro && aproximadoYXuriquem == aproximadoYMonstro)
+        {
+            xFocoTiro = xTiro;
+            yFocoTiro = yTiro;
+            switch(i)
+            {
+                case(0):
+                    velocidadeMonstro1 = 0;
+                    break;
+                case(1):
+                    velocidadeMonstro2 = 0;
+                    break;
+                case(2):
+                    velocidadeMonstro3 = 0;
+                    break;
+                default:
+                    break;
+            }
+            if(movimentos == 20)
+            {
+                xTiro = 1000;
+                yTiro = 1000;
+                movimentos = 0;
+                xFocoTiro = xTiro;
+                yFocoTiro = yTiro;
+                comXuriquem = true;
+                velocidadeMonstro1 = 10;
+                velocidadeMonstro2 = 10;
+                velocidadeMonstro3 = 5;
+            }
+            movimentos++;
         }
     }
 }
@@ -279,48 +320,48 @@ function ReceberPontos()
 
 function MovimentoTiro()
 {
-    aproximadoXFoco = Math.floor(xFocoTiro / 40);
-    aproximadoYFoco = Math.floor(yFocoTiro / 40);
-
-    aproximadoXTiro = Math.floor(xTiro / 40);
-    aproximadoYTiro = Math.floor(yTiro / 40);
-    if(aproximadoXFoco > aproximadoXTiro)
+    
+    if(xFocoTiro < xTiro)
     {
-        xTiro += 20;
+        xTiro -= 10;
     }
-    else
+    else if(xFocoTiro < xTiro)
     {
-        xTiro -= 20;
+        xTiro += 10;
     }
 
-    if(aproximadoYFoco > aproximadoYTiro)
+    if(yFocoTiro > yTiro)
     {
-        yTiro += 20;
+        yTiro += 10;
     }
-    else
+    else if(yFocoTiro < yTiro)
     {
-        yTiro -= 20;
+        yTiro -= 10;
     }
 
-    if(aproximadoYFoco == aproximadoYTiro && aproximadoXFoco == aproximadoXTiro)
+    /*if(xFocoTiro == xTiro && yFocoTiro == yTiro)
     {
         xFocoTiro = 100000;
         yFocoTiro = 100000;
 
         xTiro = xFocoTiro;
         yTiro = yFocoTiro;
-    }
+    }*/
 }
 
 $(document).ready(function(){
     Iniciar();
     $(document).on("click",function(event)
     {
-        xFocoTiro = event.pageX;
-        yFocoTiro = event.pageY;
+        if(comXuriquem)
+        {
+            xFocoTiro = event.pageX;
+            yFocoTiro = event.pageY;
 
-        xTiro = xHeroi;
-        yTiro = yHeroi;
+            xTiro = xHeroi;
+            yTiro = yHeroi;
+            comXuriquem = false;
+        }
         SpawnarTiro();
     });
 })
