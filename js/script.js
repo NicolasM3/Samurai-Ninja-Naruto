@@ -269,6 +269,15 @@ function VerificarContato()
             pontos += 1;
             DefinirPosicaoBandeira();
             AtualizaTela();
+
+            if(pontos % 8 == 0)
+            {
+                velocidadeMonstro1 += 1;
+                velocidadeMonstro2 += 1;
+                velocidadeMonstro3 += 1
+                alert(velocidadeMonstro1);
+            }
+
         }
 
         if(aproximadoXXuriquem == aproximadoXMonstro && aproximadoYXuriquem == aproximadoYMonstro)
@@ -318,14 +327,18 @@ function ReceberPontos()
     AtualizaTela();
 }
 
+var vez = 0;
+var ultimoX;
+var ultimoY;
+
 function MovimentoTiro()
-{
-    
+{ 
+    vez++
     if(xFocoTiro < xTiro)
     {
         xTiro -= 10;
     }
-    else if(xFocoTiro < xTiro)
+    else if(xFocoTiro > xTiro)
     {
         xTiro += 10;
     }
@@ -339,14 +352,21 @@ function MovimentoTiro()
         yTiro -= 10;
     }
 
-    /*if(xFocoTiro == xTiro && yFocoTiro == yTiro)
+    if(ultimoX == xTiro && ultimoY == yTiro)
     {
-        xFocoTiro = 100000;
-        yFocoTiro = 100000;
-
-        xTiro = xFocoTiro;
-        yTiro = yFocoTiro;
-    }*/
+        xFocoTiro = xTiro;
+        yFocoTiro = yTiro;
+    }
+    if(Math.floor(xFocoTiro / 20) == Math.floor(xTiro / 20) && Math.floor(yFocoTiro / 20) == Math.floor(yTiro / 20))
+    {
+        xFocoTiro = xTiro;
+        yFocoTiro = yTiro;
+    }
+    if(vez % 2 == 0)
+    {
+        ultimoX = xTiro;
+        ultimoY = yTiro;
+    }
 }
 
 $(document).ready(function(){
