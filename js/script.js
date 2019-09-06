@@ -257,11 +257,11 @@ function VerificarContato()
         var aproximadoYXuriquem = Math.floor(yTiro / 20);
 
 
-        if(aproximadoXHeroi == aproximadoXMonstro && aproximadoYHeroi == aproximadoYMonstro)
+        if((aproximadoXHeroi == aproximadoXMonstro || aproximadoXHeroi == aproximadoXMonstro + 1) && (aproximadoYHeroi == aproximadoYMonstro || aproximadoYHeroi == aproximadoYMonstro + 1))
         {
             alert("perdeu");
-            Iniciar();
-            AtualizaTela();
+            //Iniciar();
+            //AtualizaTela();
         }
 
         if((aproximadoXHeroi == aproximadoXBandeira || aproximadoXHeroi == aproximadoXBandeira + 1 || aproximadoXHeroi == aproximadoXBandeira - 1) && (aproximadoYHeroi == aproximadoYBandeira + 1 || aproximadoYHeroi == aproximadoYBandeira))
