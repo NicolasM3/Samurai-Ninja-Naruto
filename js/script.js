@@ -278,6 +278,7 @@ function VerificarContato()
                 alert(velocidadeMonstro1);
             }
 
+            $("#pontos").html("Pontos: " + pontos);
         }
 
         if(aproximadoXXuriquem == aproximadoXMonstro && aproximadoYXuriquem == aproximadoYMonstro)

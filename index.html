@@ -5,12 +5,26 @@
         <meta charset="UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
+        <style>
+            div{
+                display: inline-block;
+                text-align: center;
+                border: black 12;
+                border-radius: 30px;
+                background-color: gray;
+                padding:10px 10px;
+            }
+        </style>
     </head>
     <body onLoad="Iniciar();" onkeydown="MovimentoDoHeroi();">
         <canvas id="meuCanvas" width="1024" height="960" style="border:1px solid #000000;">
             Seu browser não suporta o elemento CANVAS, atualize-se!!!
         </canvas>
-        <button onclick="ReceberPontos();">pontos</button>
+        <!-- <button onclick="ReceberPontos();">pontos</button> -->
+        <div>
+            <h1 id="pontos">Pontos: 0</h1>
+            <p>Movimento: W, S, D, A</p>
+        </div>
         <BR>
     </body>
 </html>
